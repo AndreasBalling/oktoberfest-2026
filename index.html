@@ -407,12 +407,19 @@ button:active, .action:active { transform:translateY(1px); }
 </section>
 </main>
 
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <button class="close" type="button" aria-label="Luk" onclick="closeModal()">×</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
 <div class="bottom" aria-label="Hovednavigation">
   <nav class="nav">
     <button type="button" data-page="home" onclick="go('home')"><span class="ico">🏠</span><span class="navLabel">Hjem</span></button>
     <button type="button" data-page="program" onclick="go('program')"><span class="ico">📅</span><span class="navLabel">Plan</span></button>
     <button type="button" data-page="map" onclick="go('map')"><span class="ico">🗺️</span><span class="navLabel">Kort</span></button>
-    <button type="button" data-page="tents" onclick="go('tents')"><span class="ico">⛺</span><span class="navLabel">Telte</span></button>
+    <button type="button" data-page="wiesn" onclick="go('wiesn')"><span class="ico">⛺</span><span class="navLabel">Telte</span></button>
     <button type="button" data-page="drinks" onclick="go('drinks')"><span class="ico">🍻</span><span class="navLabel">Skål</span></button>
     <button type="button" data-page="more" onclick="go('more')"><span class="ico">•••</span><span class="navLabel">Mere</span></button>
   </nav>
@@ -638,10 +645,16 @@ function openTent(name){
  openModal(`<h2>${t.reserved?'⭐ ':''}${esc(t.name)}</h2><div class="pill">${t.type==='big'?'STORT Telt':'LILLE Telt'} · ${esc(t.beer||'')}</div><p class="lead">${esc(t.desc)}</p><div class="infoRows">${t.special?`<div class="infoRow"><b>⭐ Særlige kendetegn</b>${esc(t.special)}</div>`:''}${t.capacity?`<div class="infoRow"><b>👥 Kapacitet</b>${esc(t.capacity)}</div>`:''}${t.history?`<div class="infoRow"><b>📜 Lidt historie</b>${esc(t.history)}</div>`:''}${t.fact?`<div class="infoRow"><b>💡 Fact</b>${esc(t.fact)}</div>`:''}${t.audience?`<div class="infoRow"><b>👤 Typisk publikum</b>${esc(t.audience)}</div>`:''}<div class="infoRow"><b>Stemning</b>${esc(t.mood)}</div><div class="infoRow"><b>Praktisk</b>${esc(t.tip)}</div>${t.reservation?`<div class="infoRow"><b>⭐ Jeres reservation</b>${esc(t.reservation.date)} · ${esc(t.reservation.time)} · ${esc(t.reservation.seats)}${t.reservation.note?`<br>${esc(t.reservation.note)}`:''}</div>`:(t.reserved?`<div class="infoRow"><b>Jeres reservation</b>Fredag 25/9 · 11:30–16:00 · 6 pladser på balkon · Kundennr. 56076 · Faktura RE-2026-02306</div>`:'')}${t.reserved&&t.name==='Hofbräu Festzelt'?`<div class="infoRow"><b>🎟️ Afhentning af vouchers</b>Fra 19. september · dagligt 10:00–21:00<br><span class="small">Hofbräu Festzelt · Theresienwiese</span></div>`:''}</div><div class="actions"><button class="action" onclick="closeModal();openMap('${esc(t.name)}')">📍 Find på kort</button>${t.reserved&&t.name==='Hofbräu Festzelt'?`<button class="action dark" onclick="openHofInvoice()">📄 Åbn reservation / faktura</button>`:''}${t.url?`<a class="action dark" href="${t.url}" target="_blank">🌐 Officiel side</a>`:''}</div>`);
 }
 function setTentFilter(f){tentFilter=f;document.querySelectorAll('.filter').forEach(x=>x.classList.toggle('on',x.dataset.filter===f));renderTents()}
+function openTentByIndex(i){
+ const t=window._visibleTents?.[Number(i)];
+ if(t) openTent(t.name);
+}
 function renderTents(){
  const q=(document.getElementById('tentSearch')?.value||'').toLowerCase();
  const el=document.getElementById('tentGrid');
- el.innerHTML=tripData.tents.filter(t=>(tentFilter==='all'||(tentFilter==='reserved'?t.reserved:t.type===tentFilter)) && (t.name+t.beer+t.mood+t.desc).toLowerCase().includes(q)).map(t=>`<div class="tent ${t.reserved?'reserved':''}" onclick="openTent('${t.name.replace(/'/g,"\\'")}')"><div class="tentTop"><div><h3>${t.reserved?'⭐ ':''}${esc(t.name)}</h3><div class="beer">${esc(t.beer||'')} · ${esc(t.mood||'')}</div></div><div class="badge">${t.type==='big'?'STOR':'LILLE'}</div></div><p>${esc(t.desc)}</p><div class="small"><span class="strong">Tip:</span> ${esc(t.tip)}</div></div>`).join('');
+ if(!el)return;
+ window._visibleTents=tripData.tents.filter(t=>(tentFilter==='all'||(tentFilter==='reserved'?t.reserved:t.type===tentFilter)) && (t.name+t.beer+t.mood+t.desc).toLowerCase().includes(q));
+ el.innerHTML=window._visibleTents.map((t,i)=>`<div class="tent ${t.reserved?'reserved':''}" role="button" tabindex="0" onclick="openTentByIndex(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openTentByIndex(${i})}"><div class="tentTop"><div><h3>${t.reserved?'⭐ ':''}${esc(t.name)}</h3><div class="beer">${esc(t.beer||'')} · ${esc(t.mood||'')}</div></div><div class="badge">${t.type==='big'?'STOR':'LILLE'}</div></div><p>${esc(t.desc)}</p><div class="small"><span class="strong">Tip:</span> ${esc(t.tip)}</div></div>`).join('');
 }
 function initDays(){
  const dates=[...new Set(tripData.schedule.map(x=>x.date))];
