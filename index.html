@@ -135,6 +135,8 @@ main{padding:8px 16px 24px}.hero{background:linear-gradient(135deg,#fff,#fffaf0)
 
 /* Group drink tracker */
 .drinkHero{background:linear-gradient(135deg,#fffdf8,#f6f8fb);border:1px solid #e7e9ed}.drinkHero h2{margin:6px 0}.drinkPeople{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}.drinkPeople::-webkit-scrollbar{display:none}.personChip{flex:0 0 auto;border:1px solid #dfe4ea;background:#fff;color:#66717d;border-radius:12px;padding:10px 15px;font-weight:800;box-shadow:0 3px 10px rgba(20,30,40,.06);cursor:pointer}.personPick{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid #dfe4ea;border-radius:14px;background:#fff;color:#243447;font-weight:900;font-size:16px;margin-bottom:8px;cursor:pointer}.personPick span{font-size:24px;color:#8a5a00}.personChip.active{background:#145da0;color:#fff;border-color:#145da0;outline:3px solid rgba(20,93,160,.28);outline-offset:2px;box-shadow:0 5px 14px rgba(20,93,160,.22);transform:translateY(-1px)}.drinkSync{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f7fafc}.syncDot{width:9px;height:9px;border-radius:50%;display:inline-block;background:#d79a28;margin-right:7px}.syncDot.ok{background:#43a66b}.drinkStats{margin-top:12px}.statRow{display:flex;align-items:center;gap:10px;margin:10px 0}.statName{width:72px;font-weight:800}.statBar{flex:1;height:10px;background:#edf0f3;border-radius:999px;overflow:hidden}.statFill{height:100%;background:#e2a52b;border-radius:999px}.statNum{width:32px;text-align:right;font-weight:900}.drinkBottomBtn{margin-top:16px}
+.locationCard{background:linear-gradient(135deg,#eef7ff,#fff);border:1px solid #dbe8f4}.locationStatus{display:flex;align-items:center;gap:8px;font-weight:850}.locationDot{width:10px;height:10px;border-radius:50%;background:#9aa5af;display:inline-block}.locationDot.on{background:#43a66b;box-shadow:0 0 0 4px rgba(67,166,107,.14)}.locationDot.warn{background:#d79a28}.locationMap{height:62vh;min-height:360px;border-radius:18px;overflow:hidden;border:1px solid #dfe4e8;background:#e9edf1}.locationControls{display:flex;gap:8px;margin-top:10px}.locationControls .action{flex:1}.locationLegend{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.locationPerson{display:flex;align-items:center;gap:8px;padding:9px 10px;background:#f7f9fb;border:1px solid #e4e8ec;border-radius:12px;font-size:12px}.locationAvatar{width:11px;height:11px;border-radius:50%;display:inline-block;flex:0 0 auto}.locationTime{margin-left:auto;color:#7b8793;font-size:10px}.leaflet-container{font:12px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.personMarker{width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.28)}.personMarker span{transform:rotate(45deg);font-size:16px}.personLabel{font-weight:900;color:#17202b;background:#fff;border:1px solid #d9e0e6;border-radius:8px;padding:3px 6px;box-shadow:0 2px 7px rgba(0,0,0,.12)}
+
 </style>
 
 <style id="light-button-fix">
@@ -151,6 +153,8 @@ button, .action, .filterBtn, .tabBtn, .nav button, .drinkBtn {
 button:hover, .action:hover { background:#f7f9fb !important; }
 button:active, .action:active { transform:translateY(1px); }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -170,6 +174,7 @@ button:active, .action:active { transform:translateY(1px); }
   </div>
   <div class="moreGrid">
     <button class="moreTile moreTileWide" onclick="go('guys')"><span class="moreIcon">👥</span><span><b>Gutterne</b><small>Ring til hinanden</small></span><i>›</i></button>
+    <button class="moreTile moreTileWide" onclick="go('location')"><span class="moreIcon">📍</span><span><b>Hvor er gutterne?</b><small>Se hinanden live på kortet</small></span><i>›</i></button>
     <button class="moreTile" onclick="openDictionary()"><span class="moreIcon">🗣️</span><b>Ordbog</b><small>Bayerske fraser</small></button>
     <button class="moreTile" onclick="go('info')"><span class="moreIcon">ℹ️</span><b>Info</b><small>Praktisk info</small></button>
     <button class="moreTile" onclick="openInfo('rules')"><span class="moreIcon">⚠️</span><b>Regler</b><small>Wiesn & sikkerhed</small></button>
@@ -273,6 +278,17 @@ button:active, .action:active { transform:translateY(1px); }
   <div class="card drinkStats" id="drinkStats"></div>
 </section>
 
+<section id="location" class="page">
+  <div class="sectionTitle">📍 Gutterne</div>
+  <div class="sectionSub">Se hinanden live på kortet, mens appen er åben.</div>
+  <div class="card locationCard">
+    <div class="locationStatus"><span class="locationDot" id="locationDot"></span><span id="locationStatusText">Ikke startet</span></div>
+    <div class="small" id="locationStatusSub" style="margin-top:5px">Vælg dig selv og slå positionsdeling til. Din position deles kun, mens du har den slået til.</div>
+    <div class="locationControls"><button class="action" id="locationToggle" onclick="toggleLocationSharing()">📍 Del min position</button><button class="action dark" onclick="centerLocationMap()">◎ Find mig</button></div>
+  </div>
+  <div class="card" style="margin-top:10px;padding:8px"><div id="locationMap" class="locationMap"></div></div>
+  <div class="card" style="margin-top:10px"><div class="kicker">LIVE OVERSIGT</div><div class="locationLegend" id="locationLegend"></div></div>
+</section>
 <section id="info" class="page">
   <div class="sectionTitle">Info</div>
   <div class="tabs">
@@ -491,10 +507,10 @@ function go(id){
   const page=document.getElementById(id); if(!page)return;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   page.classList.add('active');
-  const secondary=['guys','info'];
+  const secondary=['guys','info','location'];
   const navId=secondary.includes(id)?'more':id;
   document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===navId));
-  window.scrollTo({top:0,behavior:'smooth'});
+  window.scrollTo({top:0,behavior:'smooth'}); if(id==='location')setTimeout(()=>{ensureLocationMap();if(oktoSupabase)initLocationPresence();if(locationMap)locationMap.invalidateSize()},80);
 }
 function openDictionary(){
   go('info');
@@ -575,6 +591,74 @@ function renderTimeline(){
  const all=[...items,...official.map(x=>({date:x.date,time:x.time,title:x.title,place:x.place,type:x.type,web:x.web}))].sort((a,b)=>(a.time||'99:99').localeCompare(b.time||'99:99'));
  document.getElementById('timeline').innerHTML=`<div class="dayHead"><h3>${new Date(currentDay+'T12:00:00').toLocaleDateString('da-DK',{weekday:'long',day:'numeric',month:'long'})}</h3><span class="date">${items.length+official.length} punkter</span></div><div class="timeline">${all.map(e=>`<div class="event"><span class="dot"></span><div class="eventCard"><div class="time">${esc(e.time)}</div><h3>${esc(e.title)}</h3><div class="small">📍 ${esc(e.place)}</div><span class="tag">${esc(e.type)}</span>${e.web?`<div style="margin-top:9px"><a class="small" style="text-decoration:underline" href="${e.web}" target="_blank">Officiel info ↗</a></div>`:''}</div></div>`).join('')}</div>`;
 }
+// ===== LIVE LOCATION (Supabase Realtime Presence) =====
+let locationMap=null, locationWatchId=null, locationSharing=false, locationChannel=null, locationPresence={};
+const locationColors={Emil:'#e45756',Asger:'#4f86c6',Balling:'#e2a52b',Erik:'#7b61a8',Rune:'#43a66b'};
+function locationSetStatus(kind,text,sub){
+  const d=document.getElementById('locationDot'), t=document.getElementById('locationStatusText'), s=document.getElementById('locationStatusSub');
+  if(d)d.className='locationDot '+(kind||''); if(t)t.textContent=text; if(s)s.textContent=sub;
+}
+function ensureLocationMap(){
+  if(locationMap || !window.L||!document.getElementById('locationMap')) return;
+  locationMap=L.map('locationMap',{zoomControl:true}).setView([48.142,11.558],14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(locationMap);
+}
+function personMarker(name){
+  const c=locationColors[name]||'#5d7285';
+  return L.divIcon({className:'',html:`<div class="personMarker" style="background:${c}"><span>👤</span></div>`,iconSize:[38,38],iconAnchor:[19,38],popupAnchor:[0,-38]});
+}
+function renderLocationPresence(){
+  if(!locationMap)return;
+  locationMap._personLayers=locationMap._personLayers||{};
+  const active={};
+  Object.values(locationPresence||{}).forEach(p=>{
+    if(!p?.name||!p?.lat||!p?.lng)return;
+    const age=Date.now()-(p.ts||0); if(age>120000)return;
+    active[p.name]=p;
+    let m=locationMap._personLayers[p.name];
+    if(!m){m=L.marker([p.lat,p.lng],{icon:personMarker(p.name),title:p.name}).addTo(locationMap).bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-36],className:'personLabel'});locationMap._personLayers[p.name]=m}
+    m.setLatLng([p.lat,p.lng]);m.setPopupContent(`<b>${esc(p.name)}</b><br>Sidst set ${new Date(p.ts).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'})}`);
+  });
+  Object.keys(locationMap._personLayers).forEach(name=>{if(!active[name]){locationMap.removeLayer(locationMap._personLayers[name]);delete locationMap._personLayers[name]}});
+  const legend=document.getElementById('locationLegend'); if(legend){legend.innerHTML=tripData.travelers.map(g=>{const p=active[g.name];const txt=p?'online · '+new Date(p.ts).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'}):'ikke synlig';return `<div class="locationPerson"><span class="locationAvatar" style="background:${locationColors[g.name]||'#5d7285'}"></span><b>${esc(g.name)}</b><span class="locationTime">${txt}</span></div>`}).join('')}
+}
+async function initLocationPresence(){
+  if(!oktoSupabase)return;
+  if(locationChannel)return;
+  locationChannel=oktoSupabase.channel('oktoberfest-location-'+window.OKTO_SYNC_ROOM,{config:{presence:{key:selectedDrinker||('anon-'+Math.random().toString(36).slice(2,8))}}});
+  locationChannel.on('presence',{event:'sync'},()=>{const state=locationChannel.presenceState();locationPresence={};Object.values(state).flat().forEach(p=>{if(p?.name)locationPresence[p.name]=p});renderLocationPresence();});
+  await locationChannel.subscribe();
+}
+async function publishMyLocation(lat,lng){
+  if(!locationChannel||!selectedDrinker)return;
+  await locationChannel.track({name:selectedDrinker,lat,lng,ts:Date.now()});
+}
+async function stopLocationSharing(){
+  locationSharing=false;
+  if(locationWatchId!==null){navigator.geolocation.clearWatch(locationWatchId);locationWatchId=null}
+  if(locationChannel){try{await locationChannel.untrack()}catch(e){}}
+  const b=document.getElementById('locationToggle');if(b){b.textContent='📍 Del min position';b.classList.remove('dark')}
+  locationSetStatus('', 'Positionsdeling er slået fra','De andre kan ikke længere se din position.');
+}
+async function startLocationSharing(){
+  if(!selectedDrinker){chooseDrinker();return}
+  if(!navigator.geolocation){locationSetStatus('warn','GPS er ikke tilgængelig','Denne browser understøtter ikke positionsdeling.');return}
+  if(!oktoSupabase){locationSetStatus('warn','Live-forbindelse mangler','Positionskortet kræver forbindelse til Supabase.');return}
+  await initLocationPresence();
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    locationSharing=true;const b=document.getElementById('locationToggle');if(b){b.textContent='🟢 Stop deling';b.classList.add('dark')}
+    locationSetStatus('on','Din position deles','Kun mens appen er åben og deling er slået til.');
+    await publishMyLocation(pos.coords.latitude,pos.coords.longitude);
+    if(locationMap)locationMap.setView([pos.coords.latitude,pos.coords.longitude],16);
+    locationWatchId=navigator.geolocation.watchPosition(p=>publishMyLocation(p.coords.latitude,p.coords.longitude),()=>locationSetStatus('warn','GPS-opdatering fejlede','Din seneste position kan stadig være synlig i op til ca. 2 minutter.'),{enableHighAccuracy:true,maximumAge:10000,timeout:20000});
+  },err=>{locationSetStatus('warn','Kunne ikke hente din position',err.code===1?'Tillad positionsadgang i browseren for at bruge funktionen.':'Prøv igen om et øjeblik.');},{enableHighAccuracy:true,maximumAge:0,timeout:15000});
+}
+async function toggleLocationSharing(){if(locationSharing)await stopLocationSharing();else await startLocationSharing()}
+function centerLocationMap(){
+  if(!navigator.geolocation)return;
+  navigator.geolocation.getCurrentPosition(p=>{ensureLocationMap();locationMap.setView([p.coords.latitude,p.coords.longitude],16)},()=>locationSetStatus('warn','Kunne ikke finde dig','Tillad positionsadgang i browseren.'));
+}
+function openLocation(){go('location');setTimeout(()=>{ensureLocationMap();if(oktoSupabase)initLocationPresence();if(locationMap)locationMap.invalidateSize()},50)}
 function renderGuys(){
  const el=document.getElementById('guyList');
  el.innerHTML=tripData.travelers.map(g=>`<div class="listItem"><div><h3>${esc(g.name)}</h3><div class="small">${esc(g.phone)}</div></div><a class="action" style="min-width:92px;min-height:44px;padding:9px" href="tel:${String(g.phone).replace(/[^+\d]/g,'')}">📞 Ring</a></div>`).join('');
@@ -759,6 +843,7 @@ function mapFilter(kind,btn){
  document.querySelectorAll('.mapHit').forEach(m=>{const ok=kind==='all'||m.dataset.kind===kind;m.classList.toggle('hidden',!ok)});
 }
 if(window.BroadcastChannel){try{window._drinkBC=new BroadcastChannel("oktoberfest-drinks");window._drinkBC.onmessage=e=>{if(e.data&&e.data.people){localStorage.setItem("wiesnDrinksV2",JSON.stringify(e.data));renderDrinks()}}}catch(e){}}
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&locationSharing)stopLocationSharing()});
 function init(){renderTents();initDays();updateOfficialToggle();renderGuys();renderDrinks();maybeChooseDrinker();showInfoPanel('praktisk',document.querySelector('#info .tabBtn'));addMapMarkers();initLiveDrinkSync();}
 init();
 </script>
