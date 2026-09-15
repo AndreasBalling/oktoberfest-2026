@@ -135,7 +135,7 @@ main{padding:8px 16px 24px}.hero{background:linear-gradient(135deg,#fff,#fffaf0)
 
 /* Group drink tracker */
 .drinkHero{background:linear-gradient(135deg,#fffdf8,#f6f8fb);border:1px solid #e7e9ed}.drinkHero h2{margin:6px 0}.drinkPeople{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:none}.drinkPeople::-webkit-scrollbar{display:none}.personChip{flex:0 0 auto;border:1px solid #dfe4ea;background:#fff;color:#66717d;border-radius:12px;padding:10px 15px;font-weight:800;box-shadow:0 3px 10px rgba(20,30,40,.06);cursor:pointer}.personPick{width:100%;display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border:1px solid #dfe4ea;border-radius:14px;background:#fff;color:#243447;font-weight:900;font-size:16px;margin-bottom:8px;cursor:pointer}.personPick span{font-size:24px;color:#8a5a00}.personChip.active{background:#145da0;color:#fff;border-color:#145da0;outline:3px solid rgba(20,93,160,.28);outline-offset:2px;box-shadow:0 5px 14px rgba(20,93,160,.22);transform:translateY(-1px)}.drinkSync{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#f7fafc}.syncDot{width:9px;height:9px;border-radius:50%;display:inline-block;background:#d79a28;margin-right:7px}.syncDot.ok{background:#43a66b}.drinkStats{margin-top:12px}.statRow{display:flex;align-items:center;gap:10px;margin:10px 0}.statName{width:72px;font-weight:800}.statBar{flex:1;height:10px;background:#edf0f3;border-radius:999px;overflow:hidden}.statFill{height:100%;background:#e2a52b;border-radius:999px}.statNum{width:32px;text-align:right;font-weight:900}.drinkBottomBtn{margin-top:16px}
-.locationCard{background:linear-gradient(135deg,#eef7ff,#fff);border:1px solid #dbe8f4}.locationStatus{display:flex;align-items:center;gap:8px;font-weight:850}.locationDot{width:10px;height:10px;border-radius:50%;background:#9aa5af;display:inline-block}.locationDot.on{background:#43a66b;box-shadow:0 0 0 4px rgba(67,166,107,.14)}.locationDot.warn{background:#d79a28}.locationMap{position:relative;z-index:0;height:min(48vh,520px);min-height:300px;max-height:calc(100dvh - 340px);border-radius:18px;overflow:hidden;border:1px solid #dfe4e8;background:#e9edf1;isolation:isolate}.page#location{padding-bottom:118px}.locationControls{display:flex;gap:8px;margin-top:10px}.locationControls .action{flex:1}.locationLegend{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.locationPerson{display:flex;align-items:center;gap:8px;padding:9px 10px;background:#f7f9fb;border:1px solid #e4e8ec;border-radius:12px;font-size:12px}.locationAvatar{width:11px;height:11px;border-radius:50%;display:inline-block;flex:0 0 auto}.locationTime{margin-left:auto;color:#7b8793;font-size:10px}.leaflet-container{font:12px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.personMarker{width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.28)}.personMarker span{transform:rotate(45deg);font-size:16px}.personLabel{font-weight:900;color:#17202b;background:#fff;border:1px solid #d9e0e6;border-radius:8px;padding:3px 6px;box-shadow:0 2px 7px rgba(0,0,0,.12)}
+.locationCard{background:linear-gradient(135deg,#eef7ff,#fff);border:1px solid #dbe8f4}.locationStatus{display:flex;align-items:center;gap:8px;font-weight:850}.locationDot{width:10px;height:10px;border-radius:50%;background:#9aa5af;display:inline-block}.locationDot.on{background:#43a66b;box-shadow:0 0 0 4px rgba(67,166,107,.14)}.locationDot.warn{background:#d79a28}.locationMap{position:relative;z-index:0;height:min(48vh,520px);min-height:300px;max-height:calc(100dvh - 340px);border-radius:18px;overflow:hidden;border:1px solid #dfe4e8;background:#e9edf1;isolation:isolate}.page#location{padding-bottom:118px}.locationControls{display:flex;gap:8px;margin-top:10px}.locationControls .action{flex:1}.locationDelete{margin-top:8px!important;width:100%;background:#fff4f2!important;color:#a63a2f!important;border:1px solid #e7b2ac!important;box-shadow:none!important}.locationDelete:active{background:#fbe2de!important}.locationLegend{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.locationPerson{display:flex;align-items:center;gap:8px;padding:9px 10px;background:#f7f9fb;border:1px solid #e4e8ec;border-radius:12px;font-size:12px}.locationAvatar{width:11px;height:11px;border-radius:50%;display:inline-block;flex:0 0 auto}.locationTime{margin-left:auto;color:#7b8793;font-size:10px}.leaflet-container{font:12px system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.personMarker{width:38px;height:38px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 4px 12px rgba(0,0,0,.28)}.personMarker span{transform:rotate(45deg);font-size:16px}.personLabel{font-weight:900;color:#17202b;background:#fff;border:1px solid #d9e0e6;border-radius:8px;padding:3px 6px;box-shadow:0 2px 7px rgba(0,0,0,.12)}
 
 </style>
 
@@ -285,7 +285,7 @@ button:active, .action:active { transform:translateY(1px); }
   <div class="card locationCard">
     <div class="locationStatus"><span class="locationDot" id="locationDot"></span><span id="locationStatusText">Ikke startet</span></div>
     <div class="small" id="locationStatusSub" style="margin-top:5px">Vælg dig selv og slå positionsdeling til. Din position deles kun, mens du har den slået til.</div>
-    <div class="locationControls"><button class="action" id="locationToggle" onclick="toggleLocationSharing()">📍 Del min position</button><button class="action dark" onclick="centerLocationMap()">◎ Find mig</button></div>
+    <div class="locationControls"><button class="action" id="locationToggle" onclick="toggleLocationSharing()">📍 Del min position</button><button class="action dark" onclick="centerLocationMap()">◎ Find mig</button></div><button class="action locationDelete" id="locationDelete" onclick="deleteMyLastLocation()">🗑️ Slet sidst gemte position</button>
   </div>
   <div class="card" style="margin-top:10px;padding:8px"><div id="locationMap" class="locationMap"></div></div>
   <div class="card" style="margin-top:10px"><div class="kicker">LIVE OVERSIGT</div><div class="locationLegend" id="locationLegend"></div></div>
@@ -366,6 +366,9 @@ async function initLiveDrinkSync(){
       .on("postgres_changes",{event:"*",schema:"public",table:"drink_rooms",filter:"room_id=eq."+window.OKTO_SYNC_ROOM},payload=>{
         const next=payload.new?.data;
         if(next?.people){localStorage.setItem("wiesnDrinksV2",JSON.stringify(ensurePeople(next)));renderDrinks();setSyncStatus(true,"LIVE · opdateret","Ændringen er synkroniseret til gruppen.");}
+      }).on("postgres_changes",{event:"UPDATE",schema:"public",table:"drink_rooms",filter:"room_id=eq."+window.OKTO_SYNC_ROOM},payload=>{
+        const loc=payload.new?.data?.locations;
+        if(loc&&typeof loc==='object'){const cached=getCachedLocations();saveCachedLocations({...cached,...loc});renderLocationPresence();}
       }).subscribe(status=>{
         if(status==="SUBSCRIBED") setSyncStatus(true,"LIVE · forbundet","Ændringer sendes automatisk til alle telefoner.");
         else if(status==="CHANNEL_ERROR"||status==="TIMED_OUT") setSyncStatus(false,"Forbindelse mistet","Appen gemmer stadig lokalt og prøver igen.");
@@ -596,6 +599,10 @@ function renderTimeline(){
 }
 // ===== LIVE LOCATION (Supabase Realtime Presence) =====
 let locationMap=null, locationWatchId=null, locationSharing=false, locationChannel=null, locationPresence={};
+let locationPersistTimer=null, locationPersistPending=null;
+const LOCATION_CACHE_KEY="oktoberfestLastLocationsV1";
+function getCachedLocations(){try{return JSON.parse(localStorage.getItem(LOCATION_CACHE_KEY)||"{}")}catch(e){return {}}}
+function saveCachedLocations(locations){try{localStorage.setItem(LOCATION_CACHE_KEY,JSON.stringify(locations||{}))}catch(e){}}
 const locationColors={Emil:'#e45756',Asger:'#4f86c6',Balling:'#e2a52b',Erik:'#7b61a8',Rune:'#43a66b'};
 function locationSetStatus(kind,text,sub){
   const d=document.getElementById('locationDot'), t=document.getElementById('locationStatusText'), s=document.getElementById('locationStatusSub');
@@ -605,6 +612,7 @@ function ensureLocationMap(){
   if(locationMap || !window.L||!document.getElementById('locationMap')) return;
   locationMap=L.map('locationMap',{zoomControl:true}).setView([48.142,11.558],14);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(locationMap);
+  renderLocationPresence();
 }
 function personMarker(name){
   const c=locationColors[name]||'#5d7285';
@@ -613,28 +621,70 @@ function personMarker(name){
 function renderLocationPresence(){
   if(!locationMap)return;
   locationMap._personLayers=locationMap._personLayers||{};
+  const cached=getCachedLocations();
+  const merged={...cached,...(locationPresence||{})};
   const active={};
-  Object.values(locationPresence||{}).forEach(p=>{
-    if(!p?.name||!p?.lat||!p?.lng)return;
-    const age=Date.now()-(p.ts||0); if(age>120000)return;
+  Object.values(merged).forEach(p=>{
+    if(!p?.name||!Number.isFinite(Number(p.lat))||!Number.isFinite(Number(p.lng)))return;
+    const age=Date.now()-(p.ts||0);
+    const live=age<=120000;
     active[p.name]=p;
+    p._live=live;
     let m=locationMap._personLayers[p.name];
     if(!m){m=L.marker([p.lat,p.lng],{icon:personMarker(p.name),title:p.name}).addTo(locationMap).bindTooltip(p.name,{permanent:true,direction:'top',offset:[0,-36],className:'personLabel'});locationMap._personLayers[p.name]=m}
-    m.setLatLng([p.lat,p.lng]);m.setPopupContent(`<b>${esc(p.name)}</b><br>Sidst set ${new Date(p.ts).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'})}`);
+    m.setLatLng([p.lat,p.lng]);m.setOpacity(p._live?1:.58);m.setPopupContent(`<b>${esc(p.name)}</b><br>${p._live?'🟢 Online':'⚪ Sidst kendt'} · ${new Date(p.ts).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'})}`);
   });
   Object.keys(locationMap._personLayers).forEach(name=>{if(!active[name]){locationMap.removeLayer(locationMap._personLayers[name]);delete locationMap._personLayers[name]}});
-  const legend=document.getElementById('locationLegend'); if(legend){legend.innerHTML=tripData.travelers.map(g=>{const p=active[g.name];const txt=p?'online · '+new Date(p.ts).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'}):'ikke synlig';return `<div class="locationPerson"><span class="locationAvatar" style="background:${locationColors[g.name]||'#5d7285'}"></span><b>${esc(g.name)}</b><span class="locationTime">${txt}</span></div>`}).join('')}
+  saveCachedLocations(Object.fromEntries(Object.entries(active).map(([k,v])=>[k,{name:v.name,lat:Number(v.lat),lng:Number(v.lng),ts:Number(v.ts||Date.now())}])));
+  const legend=document.getElementById('locationLegend'); if(legend){legend.innerHTML=tripData.travelers.map(g=>{const p=active[g.name];const txt=p?(p._live?'online · ':'sidst kendt · ')+new Date(p.ts).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'}):'ingen position';return `<div class="locationPerson"><span class="locationAvatar" style="background:${locationColors[g.name]||'#5d7285'}"></span><b>${esc(g.name)}</b><span class="locationTime">${txt}</span></div>`}).join('')}
+}
+async function loadCentralLocations(){
+  if(!oktoSupabase)return;
+  try{
+    const {data,error}=await oktoSupabase.from('drink_rooms').select('data').eq('room_id',window.OKTO_SYNC_ROOM).maybeSingle();
+    if(error) throw error;
+    const central=data?.data?.locations;
+    if(central&&typeof central==='object'){
+      const cached=getCachedLocations();
+      saveCachedLocations({...cached,...central});
+      renderLocationPresence();
+    }
+  }catch(e){}
+}
+async function persistLocationCentral(name,lat,lng,ts){
+  if(!oktoSupabase||!name)return;
+  locationPersistPending={name,lat:Number(lat),lng:Number(lng),ts:Number(ts)};
+  if(locationPersistTimer)return;
+  locationPersistTimer=setTimeout(async()=>{
+    locationPersistTimer=null;
+    const pending=locationPersistPending; locationPersistPending=null;
+    if(!pending)return;
+    try{
+      const {data,error}=await oktoSupabase.from('drink_rooms').select('data').eq('room_id',window.OKTO_SYNC_ROOM).maybeSingle();
+      if(error) throw error;
+      const next={...(data?.data||{}),locations:{...((data?.data?.locations)||{}),[pending.name]:pending}};
+      const upd=await oktoSupabase.from('drink_rooms').update({data:next}).eq('room_id',window.OKTO_SYNC_ROOM);
+      if(upd.error)throw upd.error;
+    }catch(e){}
+  },1200);
 }
 async function initLocationPresence(){
   if(!oktoSupabase)return;
   if(locationChannel)return;
+  await loadCentralLocations();
   locationChannel=oktoSupabase.channel('oktoberfest-location-'+window.OKTO_SYNC_ROOM,{config:{presence:{key:selectedDrinker||('anon-'+Math.random().toString(36).slice(2,8))}}});
   locationChannel.on('presence',{event:'sync'},()=>{const state=locationChannel.presenceState();locationPresence={};Object.values(state).flat().forEach(p=>{if(p?.name)locationPresence[p.name]=p});renderLocationPresence();});
   await locationChannel.subscribe();
 }
 async function publishMyLocation(lat,lng){
   if(!locationChannel||!selectedDrinker)return;
-  await locationChannel.track({name:selectedDrinker,lat,lng,ts:Date.now()});
+  const ts=Date.now();
+  await locationChannel.track({name:selectedDrinker,lat,lng,ts});
+  const cached=getCachedLocations();
+  cached[selectedDrinker]={name:selectedDrinker,lat:Number(lat),lng:Number(lng),ts};
+  saveCachedLocations(cached);
+  renderLocationPresence();
+  persistLocationCentral(selectedDrinker,lat,lng,ts);
 }
 async function stopLocationSharing(){
   locationSharing=false;
@@ -657,6 +707,29 @@ async function startLocationSharing(){
   },err=>{locationSetStatus('warn','Kunne ikke hente din position',err.code===1?'Tillad positionsadgang i browseren for at bruge funktionen.':'Prøv igen om et øjeblik.');},{enableHighAccuracy:true,maximumAge:0,timeout:15000});
 }
 async function toggleLocationSharing(){if(locationSharing)await stopLocationSharing();else await startLocationSharing()}
+async function deleteMyLastLocation(){
+  if(!selectedDrinker)return chooseDrinker();
+  const cached=getCachedLocations();
+  delete cached[selectedDrinker];
+  saveCachedLocations(cached);
+  if(locationPresence&&locationPresence[selectedDrinker]) delete locationPresence[selectedDrinker];
+  if(locationMap?._personLayers?.[selectedDrinker]){locationMap.removeLayer(locationMap._personLayers[selectedDrinker]);delete locationMap._personLayers[selectedDrinker]}
+  renderLocationPresence();
+  if(!oktoSupabase){locationSetStatus('', 'Sidst gemte position slettet','Den lokale position er fjernet.');return}
+  try{
+    const {data,error}=await oktoSupabase.from('drink_rooms').select('data').eq('room_id',window.OKTO_SYNC_ROOM).maybeSingle();
+    if(error)throw error;
+    const nextData={...(data?.data||{})};
+    const locations={...((nextData.locations)||{})};
+    delete locations[selectedDrinker];
+    nextData.locations=locations;
+    const upd=await oktoSupabase.from('drink_rooms').update({data:nextData}).eq('room_id',window.OKTO_SYNC_ROOM);
+    if(upd.error)throw upd.error;
+    locationSetStatus('', 'Sidst gemte position slettet','Din position er fjernet fra det fælles kort.');
+  }catch(e){
+    locationSetStatus('warn','Kunne ikke slette centralt','Den lokale position er slettet. Prøv igen, når forbindelsen er tilbage.');
+  }
+}
 function centerLocationMap(){
   if(!navigator.geolocation)return;
   navigator.geolocation.getCurrentPosition(p=>{ensureLocationMap();locationMap.setView([p.coords.latitude,p.coords.longitude],16)},()=>locationSetStatus('warn','Kunne ikke finde dig','Tillad positionsadgang i browseren.'));
