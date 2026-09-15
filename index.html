@@ -406,6 +406,17 @@ button:active, .action:active { transform:translateY(1px); }
   <div id="infoPanel"></div>
 </section>
 </main>
+
+<div class="bottom" aria-label="Hovednavigation">
+  <nav class="nav">
+    <button type="button" data-page="home" onclick="go('home')"><span class="ico">🏠</span><span class="navLabel">Hjem</span></button>
+    <button type="button" data-page="program" onclick="go('program')"><span class="ico">📅</span><span class="navLabel">Plan</span></button>
+    <button type="button" data-page="map" onclick="go('map')"><span class="ico">🗺️</span><span class="navLabel">Kort</span></button>
+    <button type="button" data-page="tents" onclick="go('tents')"><span class="ico">⛺</span><span class="navLabel">Telte</span></button>
+    <button type="button" data-page="drinks" onclick="go('drinks')"><span class="ico">🍻</span><span class="navLabel">Skål</span></button>
+    <button type="button" data-page="more" onclick="go('more')"><span class="ico">•••</span><span class="navLabel">Mere</span></button>
+  </nav>
+</div>
 </div>
 
 <script>
