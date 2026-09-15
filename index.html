@@ -187,6 +187,8 @@ button, .action, .filterBtn, .tabBtn, .nav button, .drinkBtn {
 .action.dark, button.dark { color:#243447 !important; background:#f5f7fa !important; border-color:#d5dde6 !important; }
 button:hover, .action:hover { background:#f7f9fb !important; }
 button:active, .action:active { transform:translateY(1px); }
+
+.currencyRate{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:#fff8e8;border:1px solid #ecd89d}.currencyRate span{font-size:12px;font-weight:800;color:#6b6257}.currencyRate b{font-size:14px}.currencyRow{display:grid;grid-template-columns:1fr 44px 1fr;gap:8px;align-items:end;margin-top:16px}.currencyField label{display:block;font-size:12px;font-weight:850;margin-bottom:6px}.currencyInput{display:flex;align-items:center;border:1px solid #d9e0e7;border-radius:12px;background:#fff;overflow:hidden}.currencyInput input{width:100%;min-width:0;border:0;outline:0;padding:12px;font-size:18px;font-weight:800;background:transparent}.currencyInput span{padding:0 10px;font-size:11px;font-weight:900;color:#777}.currencySwap{width:44px;height:44px;border-radius:12px;border:1px solid #d9e0e7;background:#f5f7fa;font-size:22px;font-weight:900;cursor:pointer}.currencyExamples{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.currencyExamples button{min-height:42px;border:1px solid #d9e0e7;border-radius:10px;background:#fff;font-weight:850;cursor:pointer}@media(max-width:520px){.currencyRow{grid-template-columns:1fr}.currencySwap{justify-self:center;transform:rotate(90deg)}.currencyExamples{grid-template-columns:repeat(2,1fr)}}
 </style>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
@@ -211,6 +213,7 @@ button:active, .action:active { transform:translateY(1px); }
     <button class="moreTile moreTileWide" onclick="go('guys')"><span class="moreIcon">👥</span><span><b>Gutterne</b><small>Ring til hinanden</small></span><i>›</i></button>
     <button class="moreTile moreTileWide" onclick="go('location')"><span class="moreIcon">📍</span><span><b>Hvor er gutterne?</b><small>Se hinanden live på kortet</small></span><i>›</i></button>
     <button class="moreTile" onclick="openDictionary()"><span class="moreIcon">🗣️</span><b>Ordbog</b><small>Bayerske fraser</small></button>
+    <button class="moreTile" onclick="go('currency')"><span class="moreIcon">💶</span><b>Valuta</b><small>DKK ↔ EUR</small></button>
     <button class="moreTile" onclick="go('info')"><span class="moreIcon">ℹ️</span><b>Info</b><small>Praktisk info</small></button>
     <button class="moreTile" onclick="openInfo('rules')"><span class="moreIcon">⚠️</span><b>Regler</b><small>Wiesn & sikkerhed</small></button>
     <button class="moreTile moreTileFest" onclick="toggleFest()"><span class="moreIcon">🎉</span><b>Festmode</b><small>Store, hurtige knapper</small></button>
@@ -225,6 +228,7 @@ button:active, .action:active { transform:translateY(1px); }
   <div class="card homeIdentity" id="homeDrinkIdentity"><div class="homeIdentityTop"><div><div class="kicker">WIESN-REGNSKABET</div><h3 id="homeIdentityTitle" style="margin:4px 0 3px">👤 Hvem er du?</h3><div class="small" id="homeIdentityText">Vælg dig selv, så appen husker dig på denne telefon.</div></div><button class="action" id="homeIdentityBtn" onclick="chooseDrinker()">Vælg person</button></div></div>
   <div class="next"><div class="nextTop"><span class="pill">✈️ Første punkt</span><span class="meta">24. sep · 04:30</span></div><h2>Mød i CPH Lufthavn</h2><div class="meta">05:00 Mikkeller's brew CPH · 06:00 Lufthansa CPH → MUC</div></div>
   <div class="sectionTitle">✈️ Fly</div>
+  <div style="margin:-2px 0 10px"><a class="action dark" href="https://drive.google.com/file/d/1txlxGmuNSb6dv1QiFkeFb07MYE1nJP5x/view?usp=sharing" target="_blank" rel="noopener">🎫 Åbn flybilletter</a></div>
   <div class="grid">
     <div class="card">
       <div class="kicker">UDREJSE · TORSDAG 24. SEP.</div>
@@ -377,6 +381,20 @@ button:active, .action:active { transform:translateY(1px); }
       <div id="wjPause">PAUSE</div>
     </div>
   </div>
+</section>
+<section id="currency" class="page">
+  <div class="sectionTitle">💶 Valutaomregner</div>
+  <div class="sectionSub">Regn hurtigt mellem danske kroner og euro.</div>
+  <div class="card currencyCard" style="margin-top:10px">
+    <div class="currencyRate"><span>Fastkurs</span><b>1 € = 7,46038 kr.</b></div>
+    <div class="currencyRow">
+      <div class="currencyField"><label for="dkkInput">🇩🇰 Danske kroner</label><div class="currencyInput"><input id="dkkInput" inputmode="decimal" type="text" placeholder="0,00" oninput="convertCurrency('dkk')"><span>DKK</span></div></div>
+      <button class="currencySwap" type="button" onclick="swapCurrencyInputs()" aria-label="Byt valuta">⇄</button>
+      <div class="currencyField"><label for="eurInput">🇪🇺 Euro</label><div class="currencyInput"><input id="eurInput" inputmode="decimal" type="text" placeholder="0,00" oninput="convertCurrency('eur')"><span>EUR</span></div></div>
+    </div>
+    <div class="small" style="margin-top:12px">Kursen følger Nationalbankens centralkurs på 7,46038 kr. pr. euro. citeturn0search0</div>
+  </div>
+  <div class="card" style="margin-top:10px"><div class="kicker">HURTIGE EKSEMPLER</div><div class="currencyExamples"><button onclick="setCurrencyExample(10)">€10</button><button onclick="setCurrencyExample(20)">€20</button><button onclick="setCurrencyExample(50)">€50</button><button onclick="setCurrencyExample(100)">€100</button></div></div>
 </section>
 <section id="info" class="page">
   <div class="sectionTitle">Info</div>
@@ -635,7 +653,7 @@ setInterval(countdown,1000);countdown();
 
 function openInfo(type){
  let title='',body='';
- if(type==='flight') body=`<h2>✈️ Lufthansa</h2><div class="infoRows">${tripData.flights.map(f=>`<div class="infoRow"><b>${esc(f.type)} · ${esc(f.date)}</b>${esc(f.route)} · ${esc(f.time)} · ${esc(f.duration)}<br>${esc(f.details)}</div>`).join('')}<div class="infoRow"><b>Booking</b>17048775</div><div class="infoRow"><b>Bagage</b>${esc(tripData.baggage)}</div></div><a class="action" style="display:block;text-align:center" href="https://www.lufthansa.com/us/en/carry-on-baggage" target="_blank">Lufthansa bagageregler ↗</a>`;
+ if(type==='flight') body=`<h2>✈️ Lufthansa</h2><div class="infoRows">${tripData.flights.map(f=>`<div class="infoRow"><b>${esc(f.type)} · ${esc(f.date)}</b>${esc(f.route)} · ${esc(f.time)} · ${esc(f.duration)}<br>${esc(f.details)}</div>`).join('')}<div class="infoRow"><b>Booking</b>17048775</div><div class="infoRow"><b>Bagage</b>${esc(tripData.baggage)}</div></div><div class="actions"><a class="action dark" href="https://drive.google.com/file/d/1txlxGmuNSb6dv1QiFkeFb07MYE1nJP5x/view?usp=sharing" target="_blank" rel="noopener">🎫 Åbn flybilletter</a><a class="action" href="https://www.lufthansa.com/us/en/carry-on-baggage" target="_blank" rel="noopener">Lufthansa bagageregler ↗</a></div>`;
  if(type==='hotel') body=`<h2>🏨 ${esc(tripData.hotel.name)}</h2><p class="lead">${esc(tripData.hotel.address)}</p><div class="infoRows"><div class="infoRow"><b>Værelse</b>${esc(tripData.hotel.room)}</div><div class="infoRow"><b>Pris</b>${esc(tripData.hotel.price)}</div><div class="infoRow"><b>Ekstra seng</b>${esc(tripData.hotel.extra)}</div><div class="infoRow"><b>Check-in / ud</b>${tripData.hotel.checkInTime} / ${tripData.hotel.checkOutTime}</div><div class="infoRow"><b>Betaling</b>${esc(tripData.hotel.payment)}</div></div><div class="actions"><button class="action" onclick="openMap('hotel')">📍 Navigation</button><a class="action dark" href="${tripData.hotel.url}" target="_blank">🌐 Hotel</a></div>`;
  if(type==='rules') body=`<h2>⚠️ Wiesn-regler 2026</h2><div class="infoRows"><div class="infoRow"><b>Tasker</b>Max 3 liter eller 20×15×10 cm. Store rygsække er ikke tilladt.</div><div class="infoRow"><b>Forbudt</b>Glasflasker, spraydåser med skadeligt indhold, korrosive/farvende stoffer og genstande der kan bruges som våben.</div><div class="infoRow"><b>Transport</b>Undgå om muligt U4/U5 Theresienwiese ved meget trængsel. Officiel anbefaling nævner bl.a. Schwanthalerhöhe, Goetheplatz og Poccistraße som alternativer.</div><div class="infoRow"><b>Bagageopbevaring</b>P1, P5, P8 og P10 · €5.</div><div class="infoRow"><b>Politi</b>110. Oktoberfest-politistation er bemandet døgnet rundt.</div></div><a class="action" style="display:block;text-align:center" href="https://www.oktoberfest.de/en/information/service-for-visitors/security-at-oktoberfest-what-can-i-bring-with-me" target="_blank">Officiel security-side ↗</a>`;
  if(type==='transport') body=`<h2>🚇 Transport</h2><div class="infoRows"><div class="infoRow"><b>Gruppebillet</b>${esc(tripData.transport.groupTicket)}</div><div class="infoRow"><b>Verificeret 2026</b>${esc(tripData.transport.official2026)}</div><div class="infoRow"><b>Fra lufthavnen</b>${esc(tripData.transport.airport)}</div><div class="infoRow"><b>Praktisk</b>${esc(tripData.transport.note)}</div></div><div class="actions"><a class="action" href="https://www.mvv-muenchen.de/en/" target="_blank">MVV ↗</a><a class="action dark" href="https://www.munich-airport.com/public-transport-260822" target="_blank">MUC transport ↗</a></div>`;
@@ -946,6 +964,12 @@ function renderDrinks(){let state=ensurePeople(drinkState());const arr=tripData.
 function selectDrinker(name){selectedDrinker=name;localStorage.setItem("wiesnDrinker",name);closeModal();renderHomeIdentity();renderDrinks()}
 function changeDrink(key,delta){if(!selectedDrinker){chooseDrinker();return}const state=ensurePeople(drinkState());const p=state.people[selectedDrinker]||{};p[key]=Math.max(0,(p[key]||0)+delta);state.people[selectedDrinker]=p;saveDrinkState(state);renderDrinks()}
 function resetMyDrinks(){if(!selectedDrinker){chooseDrinker();return}const state=ensurePeople(drinkState());state.people[selectedDrinker]={};saveDrinkState(state);renderDrinks()}
+
+function parseCurrencyValue(v){const x=String(v||'').trim().replace(/\s/g,'').replace(/,/g,'.');const n=parseFloat(x);return Number.isFinite(n)?n:0}
+function fmtCurrency(n){return Number.isFinite(n)?n.toLocaleString('da-DK',{minimumFractionDigits:2,maximumFractionDigits:2}):''}
+function convertCurrency(source){const d=document.getElementById('dkkInput'),e=document.getElementById('eurInput');if(!d||!e)return;if(source==='dkk'){const n=parseCurrencyValue(d.value);e.value=d.value.trim()===''?'':fmtCurrency(n/7.46038)}else{const n=parseCurrencyValue(e.value);d.value=e.value.trim()===''?'':fmtCurrency(n*7.46038)}}
+function swapCurrencyInputs(){const d=document.getElementById('dkkInput'),e=document.getElementById('eurInput');if(!d||!e)return;const dv=d.value,ev=e.value;d.value=ev;e.value=dv;convertCurrency('dkk')}
+function setCurrencyExample(eur){const e=document.getElementById('eurInput');if(!e)return;e.value=fmtCurrency(eur);convertCurrency('eur')}
 
 function renderPhrases(){
  const q=(document.getElementById('bavSearch')?.value||'').trim().toLowerCase();
